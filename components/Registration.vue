@@ -20,16 +20,21 @@
         <input
           type="email"
           v-model="email"
+          :class="{ 'bg-yellow-200': markEmail }"
           class="form-input mt-1 block w-full"
           placeholder="Deine E-Mail-Adresse"
         />
       </label>
 
       <label class="block mt-2">
-        <span class="text-white">Passwort</span>
+        <span class="text-white">
+          Passwort
+          <span v-if="needsAccount" class="text-xs">(min. 6 Stellen)</span>
+        </span>
         <input
           type="password"
           v-model="password"
+          :class="{ 'bg-yellow-200': markPasswords }"
           class="form-input mt-1 block w-full"
           placeholder="Dein Passwort"
         />
@@ -40,12 +45,13 @@
         <input
           type="password"
           v-model="registrationPassword"
+          :class="{ 'bg-yellow-200': markPasswords }"
           class="form-input mt-1 block w-full"
           placeholder="Passwort Wiederholung"
         />
       </label>
       <button
-        class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg"
+        class="shake mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg"
         v-text="needsAccount ? 'Registrieren' : 'Login'"
       />
     </form>
@@ -63,12 +69,22 @@ export default {
       needsAccount: true
     }
   },
+  props: {
+    markEmail: {
+      type: Boolean,
+      required: true
+    },
+    markPasswords: {
+      type: Boolean,
+      required: true
+    }
+  },
   methods: {
     register() {
       if (this.password === this.registrationPassword) {
         this.$emit('register', this.email, this.password)
       } else {
-        // display error message
+        this.$emit('mismatch')
       }
     },
     login() {

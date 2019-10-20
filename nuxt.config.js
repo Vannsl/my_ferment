@@ -17,7 +17,7 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     script: [
       {
-        src: 'https://www.gstatic.com/firebasejs/7.2.1/firebase-app.js.js',
+        src: 'https://www.gstatic.com/firebasejs/7.2.1/firebase-app.js',
         defer: ''
       }
     ]
