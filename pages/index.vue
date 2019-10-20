@@ -20,6 +20,11 @@ export default {
     features: Features,
     teasers: Teasers,
     'call-to-action': CallToAction
+  },
+  data() {
+    return {
+      test: process.env.projectId
+    }
   }
 }
 </script>
