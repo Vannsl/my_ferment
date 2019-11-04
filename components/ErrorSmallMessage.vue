@@ -1,19 +1,21 @@
 <template>
-  <div class="rounded-lg p-2 mb-4 border border-yellow-300 text-yellow-300">
-    {{ errorMsg }}
-    <button
-      v-show="showPasswordReset"
-      class="font-bold no-underline hover:underline"
-      @click.prevent="reset"
-    >Passwort vergessen?</button>
-  </div>
+  <transition name="fade">
+    <div class="text-xs text-yellow-300 leading-normal">
+      {{ label }}
+      <button
+        v-show="showPasswordReset"
+        class="font-bold no-underline hover:underline"
+        @click.prevent="reset"
+      >Passwort vergessen?</button>
+    </div>
+  </transition>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'ErrorMessage',
+  name: 'ErrorSmallMessage',
   computed: {
     label() {
       switch (this.errorMsg) {
@@ -25,6 +27,8 @@ export default {
           return this.$t('registration.weakPassword')
         case 'auth/wrong-password':
           return this.$t('registration.wrongPasswword')
+        default:
+          return 'test'
       }
     },
     showPasswordReset() {
@@ -35,6 +39,22 @@ export default {
     ...mapGetters({
       errorMsg: 'auth/errorMsg'
     })
+  },
+  methods: {
+    reset() {
+      // TODO
+    }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition-delay: 1s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

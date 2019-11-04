@@ -1,22 +1,39 @@
 <template>
-  <div class="mx-4 pt-24 flex items-center justify-center sm:h-screen" :class="{ shake: hasError }">
-    <div class="w-md sm:bg-indigo-800 text-white sm:rounded-lg sm:border sm:shadow-lg sm:p-10">
-      <error-message v-show="hasError" :errorMsg="errorMsg" @reset="resetPassword" />
-      <registration
-        v-if="!authenticatedUser"
-        @login="login"
-        @register="register"
-        @mismatch="passwordMismatch"
-        :markEmail="markEmail"
-        :markPasswords="markPasswords"
-      />
-      <logout v-else :email="authenticatedUser.email" @logout="logout()" />
+  <div class="mx-4 pt-24 flex items-center justify-center sm:h-screen">
+    <div class="w-md sm:bg-indigo-800 text-white sm:rounded-lg sm:border sm:shadow-lg">
+      <tabs class="w-full">
+        <tab
+          v-for="(content, index) in tabList"
+          :key="`tab_${index}_${content}`"
+          :content="content"
+          :index="index"
+          :length="tabList.length"
+          :selectedTabIndex="selectedTabIndex"
+          @select="selectTab(index)"
+        />
+      </tabs>
+      <div class="sm:px-10 sm:pb-10">
+        <div class="relative my-6">
+          <keyhole-svg :class="{ shake: hasError }" />
+        </div>
+        <registration
+          v-if="!authenticatedUser"
+          :needsAccount="needsAccount"
+          @login="login"
+          @register="register"
+        />
+        <logout v-else :email="authenticatedUser.email" @logout="logout()" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import firebase from 'firebase'
+import { mapMutations, mapGetters } from 'vuex'
+import KeyholeSvg from '@/components/svg/Keyhole'
+import Tabs from '@/components/Tabs'
+import Tab from '@/components/Tab'
 import Logout from '@/components/Logout'
 import Registration from '@/components/Registration'
 import ErrorMessage from '@/components/ErrorMessage'
@@ -26,74 +43,61 @@ export default {
   components: {
     logout: Logout,
     registration: Registration,
-    'error-message': ErrorMessage
+    'error-message': ErrorMessage,
+    'keyhole-svg': KeyholeSvg,
+    tabs: Tabs,
+    tab: Tab
   },
   data() {
     return {
       authenticatedUser: null,
       firebaseError: null,
-      hasError: false,
-      errorMsg: '',
-      markEmail: false,
-      markPasswords: false
+      tabList: ['Anmelden', 'Registrieren'],
+      selectedTabIndex: 0
     }
   },
   watch: {
-    hasError(val) {
-      if (!val) {
-        this.errorMsg = ''
-      }
-    },
     firebaseError(val) {
-      this.hasError = true
-      this.errorMsg = val.code
-      switch (val.code) {
-        case 'auth/email-already-in-use':
-          this.markEmail = true
-          break
-        case 'auth/weak-password':
-          this.markPasswords = true
-          break
-        case 'auth/wrong-password':
-          this.markPasswords = true
-          this.markEmail = true
-          break
-      }
+      this.setError(val.code)
+    },
+    selectedTabIndex() {
+      this.setError()
     }
+  },
+  computed: {
+    needsAccount() {
+      return this.selectedTabIndex === 1
+    },
+    ...mapGetters({
+      hasError: 'auth/hasError'
+    })
   },
   methods: {
     register(email, password) {
-      this.resetError()
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .catch(error => (this.firebaseError = error))
     },
     login(email, password) {
-      this.resetError()
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
         .catch(error => (this.firebaseError = error))
     },
     logout() {
-      this.resetError()
+      this.setError()
       firebase.auth().signOut()
-    },
-    passwordMismatch() {
-      this.resetError()
-      this.hasError = true
-      this.errorMsg = 'auth/password-mismatch'
-      this.markPasswords = true
-    },
-    resetError() {
-      this.hasError = false
-      this.markEmail = false
-      this.markPasswords = false
     },
     resetPassword() {
       // todo firebase.auth().sendPasswordResetEmail
-    }
+    },
+    selectTab(index) {
+      this.selectedTabIndex = index
+    },
+    ...mapMutations({
+      setError: 'auth/SET_ERROR'
+    })
   },
   created() {
     firebase.auth().onAuthStateChanged(user => (this.authenticatedUser = user))
