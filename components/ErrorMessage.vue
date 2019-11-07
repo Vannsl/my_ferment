@@ -1,12 +1,17 @@
 <template>
-  <div class="rounded-lg p-2 mb-4 border border-yellow-300 text-yellow-300">
-    {{ errorMsg }}
-    <button
-      v-show="showPasswordReset"
-      class="font-bold no-underline hover:underline"
-      @click.prevent="reset"
-    >Passwort vergessen?</button>
-  </div>
+  <transition name="fade">
+    <div
+      v-if="hasError"
+      class="arrow-box -mt-2 rounded-lg p-2 mb-4 border-4 border-yellow-300 bg-yellow-100 text-black"
+    >
+      {{ label }}
+      <button
+        v-show="showPasswordReset"
+        class="font-bold no-underline hover:underline"
+        @click.prevent="reset"
+      >Passwort vergessen?</button>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -25,6 +30,8 @@ export default {
           return this.$t('registration.weakPassword')
         case 'auth/wrong-password':
           return this.$t('registration.wrongPasswword')
+        case 'auth/too-many-requests':
+          return this.$t('registration.tooManyRequests')
       }
     },
     showPasswordReset() {
@@ -33,8 +40,53 @@ export default {
       )
     },
     ...mapGetters({
+      hasError: 'auth/hasError',
       errorMsg: 'auth/errorMsg'
     })
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  max-height: 500px;
+  transition: max-height 0.25s ease-in;
+}
+
+.fade-enter,
+.fade-leave-to {
+  max-height: 0;
+  overflow: hidden;
+}
+
+.arrow-box {
+  position: relative;
+}
+
+.arrow-box:after,
+.arrow-box:before {
+  bottom: 100%;
+  left: 50%;
+  border: solid transparent;
+  content: ' ';
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.arrow-box:after {
+  border-color: rgba(255, 255, 240, 0);
+  border-bottom-color: #fffff0;
+  border-width: 10px;
+  margin-left: -10px;
+}
+
+.arrow-box:before {
+  border-color: rgba(250, 240, 137, 0);
+  border-bottom-color: #faf089;
+  border-width: 16px;
+  margin-left: -16px;
+}
+</style>

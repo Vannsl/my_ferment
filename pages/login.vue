@@ -19,8 +19,8 @@
         <registration
           v-if="!authenticatedUser"
           :needsAccount="needsAccount"
-          @login="login"
-          @register="register"
+          :loading="loading"
+          @sign="signUpOrIn"
         />
         <logout v-else :email="authenticatedUser.email" @logout="logout()" />
       </div>
@@ -53,7 +53,8 @@ export default {
       authenticatedUser: null,
       firebaseError: null,
       tabList: ['Anmelden', 'Registrieren'],
-      selectedTabIndex: 0
+      selectedTabIndex: 0,
+      loading: false
     }
   },
   watch: {
@@ -73,17 +74,17 @@ export default {
     })
   },
   methods: {
-    register(email, password) {
+    signUpOrIn(email, password) {
+      const type = this.needsAccount ? 'createUser' : 'signIn'
+      const methodName = `${type}WithEmailAndPassword`
+
+      this.loading = true
+
       firebase
         .auth()
-        .createUserWithEmailAndPassword(email, password)
+        [methodName](email, password)
         .catch(error => (this.firebaseError = error))
-    },
-    login(email, password) {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .catch(error => (this.firebaseError = error))
+        .finally(() => (this.loading = false))
     },
     logout() {
       this.setError()

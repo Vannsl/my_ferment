@@ -1,7 +1,8 @@
 const FIREBASE_ERROR_CODES = {
   eMailAlreadyInUse: 'auth/email-already-in-use',
   weakPassword: 'auth/weak-password',
-  wrongCredentials: 'auth/wrong-password'
+  wrongCredentials: 'auth/wrong-password',
+  tooManyRequests: 'auth/too-many-requests'
 }
 
 const CUSTOM_ERROR_CODES = {
@@ -18,13 +19,15 @@ export const getters = {
   emailError: state =>
     [
       FIREBASE_ERROR_CODES.eMailAlreadyInUse,
-      FIREBASE_ERROR_CODES.wrongCredentials
+      FIREBASE_ERROR_CODES.wrongCredentials,
+      FIREBASE_ERROR_CODES.tooManyRequests
     ].includes(state.code),
   passwordError: state =>
     [
       FIREBASE_ERROR_CODES.weakPassword,
       FIREBASE_ERROR_CODES.wrongCredentials,
-      CUSTOM_ERROR_CODES.passwordMismatch
+      CUSTOM_ERROR_CODES.passwordMismatch,
+      FIREBASE_ERROR_CODES.tooManyRequests
     ].includes(state.code)
 }
 

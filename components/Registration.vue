@@ -1,5 +1,6 @@
 <template>
   <div>
+    <error-message :errorMsg="errorMsg" @reset="resetPassword" />
     <form class="text-black" @submit.prevent="loginOrRegister">
       <label class="block mt-1">
         <div class="text-white">E-Mail-Adresse</div>
@@ -10,14 +11,9 @@
           class="form-input mt-1 block w-full"
           placeholder="Deine E-Mail-Adresse"
         />
-        <error-small-message
-          :class="{ invisible: !markEmail }"
-          :errorMsg="errorMsg"
-          @reset="resetPassword"
-        />
       </label>
 
-      <label class="block mt-1">
+      <label class="block mt-2">
         <div class="text-white">
           Passwort
           <span v-if="needsAccount" class="text-xs">(min. 6 Stellen)</span>
@@ -29,10 +25,9 @@
           class="form-input mt-1 block w-full"
           placeholder="Dein Passwort"
         />
-        <error-small-message :class="{ invisible: !markPassword }" :errorMsg="errorMsg" />
       </label>
 
-      <label v-if="needsAccount" class="block mt-1">
+      <label v-if="needsAccount" class="block mt-2">
         <div class="text-white">Passwort Wiederholung</div>
         <input
           type="password"
@@ -41,9 +36,10 @@
           class="form-input mt-1 block w-full"
           placeholder="Passwort Wiederholung"
         />
-        <error-small-message :class="{ invisible: !markPassword }" :errorMsg="errorMsg" />
       </label>
       <button
+        :class="{ 'opacity-50 cursor-not-allowed' : loading}"
+        :disabled="loading"
         class="shake mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg"
         type="submit"
         v-text="needsAccount ? 'Registrieren' : 'Login'"
@@ -55,7 +51,7 @@
 <script>
 import { mapMutations, mapGetters } from 'vuex'
 
-import ErrorSmallMessage from '@/components/ErrorSmallMessage'
+import ErrorMessage from '@/components/ErrorMessage'
 
 export default {
   name: 'Registration',
@@ -67,7 +63,7 @@ export default {
     }
   },
   components: {
-    'error-small-message': ErrorSmallMessage
+    'error-message': ErrorMessage
   },
   props: {
     errorMsg: {
@@ -75,6 +71,10 @@ export default {
       default: ''
     },
     needsAccount: {
+      type: Boolean,
+      required: true
+    },
+    loading: {
       type: Boolean,
       required: true
     }
@@ -89,13 +89,13 @@ export default {
   methods: {
     register() {
       if (this.password === this.registrationPassword) {
-        this.$emit('register', this.email, this.password)
+        this.$emit('sign', this.email, this.password)
       } else {
         window.setTimeout(() => this.setError('auth/password-mismatch'), 100)
       }
     },
     login() {
-      this.$emit('login', this.email, this.password)
+      this.$emit('sign', this.email, this.password)
     },
     loginOrRegister() {
       this.setError()
