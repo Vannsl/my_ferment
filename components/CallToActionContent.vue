@@ -11,9 +11,10 @@
       class="my-4 text-3xl leading-tight"
     >Alle Fermente im Überblick, welche brauchen noch, welche sind fertig?</h3>
 
-    <button
+    <nuxt-link
       class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg"
-    >Fermente anlegen</button>
+      to="/login"
+    >Fermente anlegen</nuxt-link>
   </section>
 </template>
 

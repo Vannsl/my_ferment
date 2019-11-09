@@ -11,9 +11,10 @@
           class="leading-normal text-2xl mb-8"
         >Nie wieder Etiketten, ungewollter Kombucha-Essig oder vergessene, verschimmelte Gläser.</p>
 
-        <button
+        <nuxt-link
           class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg"
-        >Fermente anlegen</button>
+          to="/login"
+        >Fermente anlegen</nuxt-link>
       </div>
       <!--Right Col-->
       <div class="w-full md:w-3/5 py-6 text-center">

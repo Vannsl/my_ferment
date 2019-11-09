@@ -2,7 +2,7 @@
   <transition name="fade">
     <div
       v-if="hasError"
-      class="arrow-box -mt-2 rounded-lg p-2 mb-4 border-4 border-yellow-300 bg-yellow-100 text-black"
+      class="arrow-box relative -mt-2 rounded-lg p-2 mb-4 border-4 border-yellow-300 bg-yellow-100 text-black"
     >
       {{ label }}
       <button
@@ -63,10 +63,6 @@ export default {
 .fade-leave-to {
   max-height: 0;
   overflow: hidden;
-}
-
-.arrow-box {
-  position: relative;
 }
 
 .arrow-box:after,
