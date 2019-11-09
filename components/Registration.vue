@@ -1,7 +1,7 @@
 <template>
   <div>
-    <error-message :errorMsg="errorMsg" @reset="resetPassword" />
-    <form class="text-black" @submit.prevent="loginOrRegister">
+    <error-message :errorMsg="errorMsg" @reset="reset" />
+    <form class="text-black" @submit.prevent="loginOrRegisterOrReset">
       <label class="block mt-1">
         <div class="text-white">E-Mail-Adresse</div>
         <input
@@ -13,7 +13,7 @@
         />
       </label>
 
-      <label class="block mt-2">
+      <label v-if="!needsResetting" class="block mt-2">
         <div class="text-white">
           Passwort
           <span v-if="needsAccount" class="text-xs">(min. 6 Stellen)</span>
@@ -27,7 +27,7 @@
         />
       </label>
 
-      <label v-if="needsAccount" class="block mt-2">
+      <label v-if="!needsResetting && needsAccount" class="block mt-2">
         <div class="text-white">Passwort Wiederholung</div>
         <input
           type="password"
@@ -42,7 +42,7 @@
         :disabled="loading"
         class="shake mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg"
         type="submit"
-        v-text="needsAccount ? 'Registrieren' : 'Login'"
+        v-text="buttonText"
       />
     </form>
   </div>
@@ -59,7 +59,8 @@ export default {
     return {
       email: '',
       password: '',
-      registrationPassword: ''
+      registrationPassword: '',
+      needsResetting: false
     }
   },
   components: {
@@ -80,6 +81,16 @@ export default {
     }
   },
   computed: {
+    buttonText() {
+      let text = 'Login'
+      if (!this.needsResetting && this.needsAccount) {
+        text = 'Registrieren'
+      }
+      if (this.needsResetting) {
+        text = 'Passwort zurücksetzen'
+      }
+      return text
+    },
     ...mapGetters({
       hasError: 'auth/hasError',
       markEmail: 'auth/emailError',
@@ -94,19 +105,22 @@ export default {
         window.setTimeout(() => this.setError('auth/password-mismatch'), 100)
       }
     },
-    login() {
-      this.$emit('sign', this.email, this.password)
-    },
-    loginOrRegister() {
+    loginOrRegisterOrReset() {
       this.setError()
-      if (this.needsAccount) {
+      if (!this.needsResetting && this.needsAccount) {
         this.register()
+      } else if (this.needsResetting) {
+        this.$emit('reset', this.email)
       } else {
-        this.login()
+        this.$emit('sign', this.email, this.password)
       }
     },
+    reset(email) {
+      this.setError()
+      this.needsResetting = true
+    },
     resetPassword() {
-      // todo firebase.auth().sendPasswordResetEmail
+      this.$emit('reset', this.email)
     },
     ...mapMutations({
       setError: 'auth/SET_ERROR'

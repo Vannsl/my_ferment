@@ -43,6 +43,11 @@ export default {
       hasError: 'auth/hasError',
       errorMsg: 'auth/errorMsg'
     })
+  },
+  methods: {
+    reset() {
+      this.$emit('reset')
+    }
   }
 }
 </script>

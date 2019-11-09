@@ -16,13 +16,17 @@
         <div class="relative my-6">
           <keyhole-svg :class="{ shake: hasError }" />
         </div>
+        <div v-if="wasResetted">
+          Eine E-Mail zum Zurücksetzen des Passworts wurde an die Adresse
+          <strong>{{ this.email }}</strong> geschickt.
+        </div>
         <registration
-          v-if="!authenticatedUser"
+          v-else
           :needsAccount="needsAccount"
           :loading="loading"
           @sign="signUpOrIn"
+          @reset="reset"
         />
-        <logout v-else :email="authenticatedUser.email" @logout="logout()" />
       </div>
     </div>
   </div>
@@ -34,14 +38,12 @@ import { mapMutations, mapGetters } from 'vuex'
 import KeyholeSvg from '@/components/svg/Keyhole'
 import Tabs from '@/components/Tabs'
 import Tab from '@/components/Tab'
-import Logout from '@/components/Logout'
 import Registration from '@/components/Registration'
 import ErrorMessage from '@/components/ErrorMessage'
 
 export default {
   name: 'Login',
   components: {
-    logout: Logout,
     registration: Registration,
     'error-message': ErrorMessage,
     'keyhole-svg': KeyholeSvg,
@@ -54,7 +56,9 @@ export default {
       firebaseError: null,
       tabList: ['Anmelden', 'Registrieren'],
       selectedTabIndex: 0,
-      loading: false
+      loading: false,
+      wasResetted: false,
+      email: ''
     }
   },
   watch: {
@@ -86,12 +90,16 @@ export default {
         .catch(error => (this.firebaseError = error))
         .finally(() => (this.loading = false))
     },
-    logout() {
-      this.setError()
-      firebase.auth().signOut()
-    },
-    resetPassword() {
-      // todo firebase.auth().sendPasswordResetEmail
+    reset(email) {
+      this.loading = true
+      this.email = email
+      firebase
+        .auth()
+        .sendPasswordResetEmail(email)
+        .finally(() => {
+          this.loading = false
+          this.wasResetted = true
+        })
     },
     selectTab(index) {
       this.selectedTabIndex = index
