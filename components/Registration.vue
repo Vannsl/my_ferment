@@ -40,7 +40,7 @@
       <button
         :class="{ 'opacity-50 cursor-not-allowed' : loading}"
         :disabled="loading"
-        class="shake mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg"
+        class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg"
         type="submit"
         v-text="buttonText"
       />

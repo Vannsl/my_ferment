@@ -19,6 +19,11 @@
         <div v-if="wasResetted">
           Eine E-Mail zum Zurücksetzen des Passworts wurde an die Adresse
           <strong>{{ this.email }}</strong> geschickt.
+          <button
+            class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg"
+            @click.prevent="back"
+            v-text="'Zurück zum Login'"
+          />
         </div>
         <registration
           v-else
@@ -103,6 +108,10 @@ export default {
     },
     selectTab(index) {
       this.selectedTabIndex = index
+    },
+    back() {
+      this.selectedTabIndex = 0
+      this.wasResetted = false
     },
     ...mapMutations({
       setError: 'auth/SET_ERROR'
