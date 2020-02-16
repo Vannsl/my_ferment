@@ -12,5 +12,12 @@
   "about": {
     "title": "About",
     "introduction": "This page is made to give you more informations."
+  },
+  "registration": {
+    "emailAlreadyInUse": "Für diese E-Mail Adresse existiert bereits ein Account.",
+    "passwordMismatch": "Die Passwörter stimmen nicht überein.",
+    "weakPassword": "Das Passwort muss min. 6 Charaktere enthalten.",
+    "wrongPasswword": "Die Kombination aus E-Mail Adresse und Passwort ist nicht korrekt.",
+    "tooManyRequests": "Maximale Anzahl an Versuchen erreichtt. Bitte versuche es später noch einmal."
   }
 }

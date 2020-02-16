@@ -1,11 +1,11 @@
 <template>
-  <a
+  <nuxt-link
     :class="classList"
     class="no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
-    href="#"
+    to="/"
   >
     <logo-svg />&nbsp;MyFerments
-  </a>
+  </nuxt-link>
 </template>
 
 <script>

@@ -1,6 +1,6 @@
-# ferm_cell
+# my_ferment
 
-> Fermentation Cellar
+> MyFerment
 
 ## Build Setup
 
