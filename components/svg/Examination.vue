@@ -1,6 +1,5 @@
 <template>
   <svg
-    id="a6b890e1-6b41-4f3d-9564-2b3dd01a7f45"
     data-name="Layer 1"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 1152.49452 700"

@@ -1,6 +1,5 @@
 <template>
   <svg
-    id="f9eb83fe-2109-496c-8de2-d29751931755"
     data-name="Layer 1"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -8,7 +7,6 @@
   >
     <defs>
       <linearGradient
-        id="b7f84a8b-804f-4004-8d61-2f9b427d4893"
         x1="785.51"
         y1="659.88"
         x2="938.51"
