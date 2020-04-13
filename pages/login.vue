@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-4 pt-24 flex items-center justify-center sm:h-screen">
+  <article class="mx-4 pt-24 flex items-center justify-center sm:h-screen">
     <div class="w-md sm:bg-indigo-800 text-white sm:rounded-lg sm:border sm:shadow-lg">
       <tabs class="w-full">
         <tab
@@ -34,7 +34,7 @@
         />
       </div>
     </div>
-  </div>
+  </article>
 </template>
 
 <script>
@@ -72,6 +72,12 @@ export default {
     },
     selectedTabIndex() {
       this.setError()
+    },
+    authenticatedUser(newVal) {
+      debugger
+      if (newVal !== null) {
+        this.$router.push({ path: 'ferments' })
+      }
     }
   },
   computed: {

@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <article>
     <hero />
     <features />
     <teasers />
     <call-to-action />
-  </div>
+  </article>
 </template>
 
 <script>
