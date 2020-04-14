@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   name: 'ErrorSmallMessage',
@@ -36,7 +36,7 @@ export default {
         this.errorMsg
       )
     },
-    ...mapGetters({
+    ...mapState({
       errorMsg: 'auth/errorMsg'
     })
   },

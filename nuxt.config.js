@@ -11,7 +11,8 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: 'MyFerment gibt dir inen Überlick über all deine Fermente. Egal ob Kombucha mit Scoby, Kefir mit Kristallen oder Knollen, Milchsäurevergärtes mit Salzlake.'
+        content:
+          'MyFerment gibt dir inen Überlick über all deine Fermente. Egal ob Kombucha mit Scoby, Kefir mit Kristallen oder Knollen, Milchsäurevergärtes mit Salzlake.'
       }
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
@@ -41,6 +42,8 @@ export default {
    ** Nuxt.js dev-modules
    */
   buildModules: [
+    // DOC: https://typescript.nuxtjs.org/guide/setup.html
+    '@nuxt/typescript-build',
     // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
     '@nuxtjs/tailwindcss',
     '@nuxtjs/dotenv'

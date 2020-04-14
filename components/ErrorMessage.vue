@@ -15,23 +15,27 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'ErrorMessage',
   computed: {
     label() {
-      switch (this.errorMsg) {
+      switch (this.code) {
         case 'auth/email-already-in-use':
           return this.$t('registration.emailAlreadyInUse')
         case 'auth/password-mismatch':
           return this.$t('registration.passwordMismatch')
+        case 'auth/too-many-requests':
+          return this.$t('registration.tooManyRequests')
+        case 'auth/user-not-found':
+          return this.$t('registration.userNotFound')
         case 'auth/weak-password':
           return this.$t('registration.weakPassword')
         case 'auth/wrong-password':
-          return this.$t('registration.wrongPasswword')
-        case 'auth/too-many-requests':
-          return this.$t('registration.tooManyRequests')
+          return this.$t('registration.wrongPassword')
+        default:
+          return this.$t('registration.customError')
       }
     },
     showPasswordReset() {
@@ -39,10 +43,8 @@ export default {
         this.errorMsg
       )
     },
-    ...mapGetters({
-      hasError: 'auth/hasError',
-      errorMsg: 'auth/errorMsg'
-    })
+    ...mapGetters('auth', ['hasError']),
+    ...mapState('auth', ['code'])
   },
   methods: {
     reset() {

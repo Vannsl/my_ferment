@@ -7,7 +7,7 @@
         <input
           type="email"
           v-model="email"
-          :class="{ 'bg-yellow-300': markEmail }"
+          :class="{ 'bg-yellow-300': emailError }"
           class="form-input mt-1 block w-full"
           placeholder="Deine E-Mail-Adresse"
         />
@@ -21,7 +21,7 @@
         <input
           type="password"
           v-model="password"
-          :class="{ 'bg-yellow-300': markPassword }"
+          :class="{ 'bg-yellow-300': passwordError }"
           class="form-input mt-1 block w-full"
           placeholder="Dein Passwort"
         />
@@ -32,7 +32,7 @@
         <input
           type="password"
           v-model="registrationPassword"
-          :class="{ 'bg-yellow-300': markPassword }"
+          :class="{ 'bg-yellow-300': passwordError }"
           class="form-input mt-1 block w-full"
           placeholder="Passwort Wiederholung"
         />
@@ -91,11 +91,7 @@ export default {
       }
       return text
     },
-    ...mapGetters({
-      hasError: 'auth/hasError',
-      markEmail: 'auth/emailError',
-      markPassword: 'auth/passwordError'
-    })
+    ...mapGetters('auth', ['hasError', 'emailError', 'passwordError'])
   },
   methods: {
     register() {

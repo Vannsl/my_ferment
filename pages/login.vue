@@ -39,7 +39,7 @@
 
 <script>
 import firebase from 'firebase'
-import { mapMutations, mapGetters } from 'vuex'
+import { mapGetters, mapMutations, mapState } from 'vuex'
 import KeyholeSvg from '@/components/svg/Keyhole'
 import Tabs from '@/components/Tabs'
 import Tab from '@/components/Tab'
@@ -57,7 +57,6 @@ export default {
   },
   data() {
     return {
-      authenticatedUser: null,
       firebaseError: null,
       tabList: ['Anmelden', 'Registrieren'],
       selectedTabIndex: 0,
@@ -68,13 +67,12 @@ export default {
   },
   watch: {
     firebaseError(val) {
-      this.setError(val.code)
+      this.SET_ERROR(val.code)
     },
     selectedTabIndex() {
-      this.setError()
+      this.SET_ERROR()
     },
     authenticatedUser(newVal) {
-      debugger
       if (newVal !== null) {
         this.$router.push({ path: 'ferments' })
       }
@@ -84,9 +82,8 @@ export default {
     needsAccount() {
       return this.selectedTabIndex === 1
     },
-    ...mapGetters({
-      hasError: 'auth/hasError'
-    })
+    ...mapGetters('auth', ['hasError']),
+    ...mapState('auth', ['authenticatedUser'])
   },
   methods: {
     signUpOrIn(email, password) {
@@ -119,12 +116,10 @@ export default {
       this.selectedTabIndex = 0
       this.wasResetted = false
     },
-    ...mapMutations({
-      setError: 'auth/SET_ERROR'
-    })
+    ...mapMutations('auth', ['SET_ERROR', 'SET_AUTHENTICATED_USER'])
   },
   created() {
-    firebase.auth().onAuthStateChanged(user => (this.authenticatedUser = user))
+    firebase.auth().onAuthStateChanged(this.SET_AUTHENTICATED_USER)
   }
 }
 </script>

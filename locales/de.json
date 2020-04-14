@@ -14,10 +14,12 @@
     "introduction": "This page is made to give you more informations."
   },
   "registration": {
+    "customError": "Ein Fehler ist aufgetreten. Bitte kontaktiere den Support.",
     "emailAlreadyInUse": "Für diese E-Mail Adresse existiert bereits ein Account.",
     "passwordMismatch": "Die Passwörter stimmen nicht überein.",
+    "userNotFound": "Logininformationen inkorrekt.",
+    "tooManyRequests": "Maximale Anzahl an Versuchen erreichtt. Bitte versuche es später noch einmal.",
     "weakPassword": "Das Passwort muss min. 6 Charaktere enthalten.",
-    "wrongPasswword": "Die Kombination aus E-Mail Adresse und Passwort ist nicht korrekt.",
-    "tooManyRequests": "Maximale Anzahl an Versuchen erreichtt. Bitte versuche es später noch einmal."
+    "wrongPassword": "Die Kombination aus E-Mail Adresse und Passwort ist nicht korrekt."
   }
 }
