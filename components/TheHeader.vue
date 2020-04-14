@@ -20,26 +20,26 @@
       >
         <ul class="list-reset lg:flex justify-end flex-1 items-center">
           <li class="mr-3">
-            <a class="inline-block py-2 px-4 text-black font-bold no-underline" href="#">Neu hier?</a>
+            <a class="link" href="#">{{ $t('navigation.new') }}</a>
           </li>
           <li class="mr-3">
             <a
-              class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4"
+              class="link hover:text-gray-800 hover:text-underline"
               href="#"
-            >Rezepte</a>
+            >{{ $t('navigation.recipes') }}</a>
           </li>
           <li class="mr-3">
             <a
-              class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4"
+              class="link hover:text-gray-800 hover:text-underline"
               href="#"
-            >Saisonkalendar</a>
+            >{{ $t('navigation.seasonalCalendar') }}</a>
           </li>
         </ul>
         <nuxt-link
           :class="navActionClassList"
           class="mx-auto lg:mx-0 hover:underline font-bold rounded-full mt-4 lg:mt-0 py-4 px-8 shadow opacity-75"
           to="/login"
-        >Meine Fermente</nuxt-link>
+        >{{ $t('navigation.myFerments') }}</nuxt-link>
       </div>
     </div>
     <hr class="border-b border-gray-100 opacity-25 my-0 py-0" />
@@ -105,3 +105,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.link {
+  @apply inline-block text-black no-underline py-2 px-4;
+}
+</style>

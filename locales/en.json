@@ -1,19 +1,18 @@
 {
-  "links": {
-    "home": "Home",
-    "about": "About",
-    "english": "English version",
-    "french": "French version"
-  },
-  "home": {
-    "title": "Welcome",
-    "introduction": "This is an introduction in English."
-  },
-  "about": {
-    "title": "About",
-    "introduction": "This page is made to give you more informations."
+  "navigation": {
+    "logout": "logout",
+    "myFerments": "My Ferments",
+    "new": "New?",
+    "recipes": "Recipes",
+    "seasonalCalendar": "Seasonal Calendar"
   },
   "registration": {
-    "emailAlreadyInUse": "Für diese E-Mail Adresse existiert bereits ein Account."
+    "customError": "An error occured. Please contact the support.",
+    "emailAlreadyInUse": "An account already exists for this email.",
+    "passwordMismatch": "The passwords don't match.",
+    "tooManyRequests": "Max. account of tries. Please try again later.",
+    "userNotFound": "Login information incorrect.",
+    "weakPassword": "The password must include at least 6 characters.",
+    "wrongPassword": "The combination of eMail address and password is incorrect."
   }
 }
