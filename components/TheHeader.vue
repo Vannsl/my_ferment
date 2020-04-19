@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Logo from '@/components/Logo'
 import HamburgerSvg from '@/components/svg/Hamburger'
 
@@ -63,6 +64,7 @@ export default {
     }
   },
   computed: {
+    ...mapState('auth', ['authenticatedUser']),
     isSticky() {
       return this.scrollY > 10
     }
