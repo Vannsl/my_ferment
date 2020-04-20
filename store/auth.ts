@@ -1,5 +1,6 @@
+import Vue from 'vue'
 import { GetterTree, MutationTree } from 'vuex'
-import firebase, { FirebaseError } from 'firebase';
+import firebase, { FirebaseError } from 'firebase'
 import { RootState } from '~/store'
 
 const FIREBASE_ERROR_CODES = {
@@ -16,7 +17,7 @@ const CUSTOM_ERROR_CODES = {
 
 export const state = () => ({
   code: '',
-  authenticatedUser: {}
+  user: {}
 })
 
 export type AuthState = ReturnType<typeof state>
@@ -44,7 +45,8 @@ export const mutations: MutationTree<AuthState> = {
   SET_ERROR(state, code: string = '') {
     state.code = code
   },
-  SET_AUTHENTICATED_USER(state, user: firebase.User) {
-    state.authenticatedUser = user
+  ON_STATE_CHANGED(state, { authUser } : {authUser: firebase.User}) {
+    const { uid, email, emailVerified } = authUser
+    state.user = { uid, email, emailVerified }
   }
 }

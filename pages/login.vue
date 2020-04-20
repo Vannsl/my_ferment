@@ -17,12 +17,11 @@
           <keyhole-svg :class="{ shake: hasError }" />
         </div>
         <div v-if="wasResetted">
-          Eine E-Mail zum Zurücksetzen des Passworts wurde an die Adresse
-          <strong>{{ this.email }}</strong> geschickt.
+          <span v-html="$md.render($t('registration.resetPasswordSuccess', { email: this.email }))" />
           <button
             class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg"
             @click.prevent="back"
-            v-text="'Zurück zum Login'"
+            v-text="$t('registration.backToLogin')"
           />
         </div>
         <registration
@@ -38,7 +37,6 @@
 </template>
 
 <script>
-import firebase from 'firebase'
 import { mapGetters, mapMutations, mapState } from 'vuex'
 import KeyholeSvg from '@/components/svg/Keyhole'
 import Tabs from '@/components/Tabs'
@@ -72,10 +70,14 @@ export default {
     selectedTabIndex() {
       this.SET_ERROR()
     },
-    authenticatedUser(newVal) {
-      if (newVal !== null) {
-        this.$router.push({ path: 'ferments' })
-      }
+    user: {
+      handler(val) {
+        if (val.emailVerified) {
+          this.$router.push({ path: 'ferments' })
+        }
+      },
+      deep: true,
+      immediate: true
     }
   },
   computed: {
@@ -83,7 +85,7 @@ export default {
       return this.selectedTabIndex === 1
     },
     ...mapGetters('auth', ['hasError']),
-    ...mapState('auth', ['authenticatedUser'])
+    ...mapState('auth', ['user'])
   },
   methods: {
     signUpOrIn(email, password) {
@@ -92,8 +94,7 @@ export default {
 
       this.loading = true
 
-      firebase
-        .auth()
+      this.$fireAuth
         [methodName](email, password)
         .catch(error => (this.firebaseError = error))
         .finally(() => (this.loading = false))
@@ -101,8 +102,7 @@ export default {
     reset(email) {
       this.loading = true
       this.email = email
-      firebase
-        .auth()
+      this.$fireAuth
         .sendPasswordResetEmail(email)
         .finally(() => {
           this.loading = false
@@ -117,9 +117,6 @@ export default {
       this.wasResetted = false
     },
     ...mapMutations('auth', ['SET_ERROR', 'SET_AUTHENTICATED_USER'])
-  },
-  created() {
-    firebase.auth().onAuthStateChanged(this.SET_AUTHENTICATED_USER)
   }
 }
 </script>

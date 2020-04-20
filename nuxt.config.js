@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 export default {
   mode: 'universal',
   /*
@@ -15,13 +17,7 @@ export default {
           'MyFerment gibt dir inen Überlick über all deine Fermente. Egal ob Kombucha mit Scoby, Kefir mit Kristallen oder Knollen, Milchsäurevergärtes mit Salzlake.'
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
-    script: [
-      {
-        src: 'https://www.gstatic.com/firebasejs/7.2.1/firebase-app.js',
-        defer: ''
-      }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   router: {
     middleware: 'i18n'
@@ -37,7 +33,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/i18n.js', '~/plugins/firebase.js'],
+  plugins: ['~/plugins/i18n.js'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -45,13 +41,40 @@ export default {
     // DOC: https://typescript.nuxtjs.org/guide/setup.html
     '@nuxt/typescript-build',
     // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
-    '@nuxtjs/tailwindcss',
-    '@nuxtjs/dotenv'
+    '@nuxtjs/tailwindcss'
   ],
   /*
    ** Nuxt.js modules
    */
-  modules: [],
+  modules: [
+    '@nuxtjs/markdownit',
+    [
+      '@nuxtjs/firebase',
+      {
+        config: {
+          apiKey: process.env.API_KEY,
+          authDomain: `${process.env.PROJECT_ID}.firebaseapp.com`,
+          databaseURL: `https://${process.env.PROJECT_ID}.firebaseio.com`,
+          projectId: process.env.PROJECT_ID,
+          storageBucket: `${process.env.PROJECT_ID}.appspot.com`,
+          messagingSenderId: process.env.MESSAGING_SENDER_ID,
+          appId: process.env.APP_ID
+        },
+        services: {
+          auth: {
+            persistence: 'local',
+            initialize: {
+              onAuthStateChangedMutation: 'auth/ON_STATE_CHANGED',
+            },
+            ssr: false
+          }
+        }
+      }
+    ]
+  ],
+  markdownit: {
+    injected: true
+  },
   /*
    ** Build configuration
    */

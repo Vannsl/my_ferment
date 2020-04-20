@@ -1,11 +1,12 @@
 <template>
-  <div>
+  <div class="mx-4 pt-24 container h-screen">
     Hello World
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Ferments'
+  name: 'Ferments',
+  middleware: 'auth'
 }
 </script>

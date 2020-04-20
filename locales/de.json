@@ -10,6 +10,7 @@
     "customError": "Ein Fehler ist aufgetreten. Bitte kontaktiere den Support.",
     "emailAlreadyInUse": "Für diese E-Mail Adresse existiert bereits ein Account.",
     "passwordMismatch": "Die Passwörter stimmen nicht überein.",
+    "resetPasswordSuccess": "Eine E-Mail zum Zurücksetzen des Passworts wurde an die Adresse **{email}** geschickt.",
     "tooManyRequests": "Maximale Anzahl an Versuchen erreicht. Bitte versuche es später noch einmal.",
     "userNotFound": "Logininformationen inkorrekt.",
     "weakPassword": "Das Passwort muss min. 6 Charaktere enthalten.",
