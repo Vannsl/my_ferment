@@ -19,15 +19,21 @@
         class="w-full flex-grow lg:flex lg:items-center lg:w-auto lg:block mt-2 lg:mt-0 bg-white lg:bg-transparent text-black p-4 lg:p-0 z-20"
       >
         <ul class="list-reset lg:flex justify-end flex-1 items-center">
-          <li class="mr-3">
-            <a class="link" href="#">{{ $t('navigation.new') }}</a>
-          </li>
-          <li class="mr-3">
-            <a
+          <!-- <li class="mr-3">
+            <a href="#howto">Test</a>
+           <nuxt-link
               class="link hover:text-gray-800 hover:text-underline"
-              href="#"
-            >{{ $t('navigation.recipes') }}</a>
+              :to="{ path: '/', hash:'howto'}"
+            >
+              {{ $t('navigation.new') }}
+            </nuxt-link>
           </li>
+          <li class="mr-3">
+            <nuxt-link
+              class="link hover:text-gray-800 hover:text-underline"
+              to="/"
+            >{{ $t('navigation.recipes') }}</nuxt-link>
+          </li> -->
           <li class="mr-3">
             <a
               class="link hover:text-gray-800 hover:text-underline"
